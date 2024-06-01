@@ -7,4 +7,4 @@ from .models import Exercise
 def index(request):
     exercises = Exercise.objects.all()
     context = {"exercises": exercises}
-    return render(request, "list.html", context=context)
+    return render(request, "index.html", context=context)
