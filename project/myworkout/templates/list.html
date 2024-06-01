@@ -1,0 +1,18 @@
+<table cellspacing="0" cellpadding="1" border="1" width="300">
+    <tr style="color:white;background-color:grey">
+        <th>Exercise</th>
+        <th>Body part</th>
+        <th>Equipment</th>
+    </tr>
+    {% for exercise in exercises %}
+    <tr>
+        <td>{{exercise.name}}</td>
+        <td>
+            {{ exercise.target_body_part.all|join:", " }}
+        </td>
+        <td>
+            {{ exercise.required_equipment.all|join:", " }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
