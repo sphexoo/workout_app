@@ -1,17 +1,21 @@
 import random
 
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+import django_tables2 as tables
 
 from .models import Exercise
 from .forms import NumberOfExercisesForm
+from .tables import ExercisesTable
+
 
 
 def index(request):
     exercises = Exercise.objects.all()
     form = NumberOfExercisesForm()
-    context = {"exercises": exercises, "form": form}
+    table = ExercisesTable(exercises)
+    # table.paginate(page=request.GET.get("page", 1), per_page=10)
+    context = {"form": form, "table": table}
     return render(request, "index.html", context=context)
 
 
