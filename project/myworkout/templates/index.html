@@ -1,3 +1,12 @@
+<html>
+
+Create random workout
+<form action="random/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="OK">
+</form>
+
 <table cellspacing="0" cellpadding="1" border="1" width="300">
     <tr style="color:white;background-color:grey">
         <th>Exercise</th>
@@ -16,3 +25,7 @@
     </tr>
     {% endfor %}
 </table>
+
+
+
+</html>
