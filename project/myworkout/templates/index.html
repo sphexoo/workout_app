@@ -6,12 +6,14 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">  
     </head>
     <body>
-        Create random workout
-        <form action="random/" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="OK">
-        </form>
+        <div class="style">
+            Create random workout
+            <form action="random/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="OK">
+            </form>
+        </div>
         {% render_table table %}
     </body>
 </html>

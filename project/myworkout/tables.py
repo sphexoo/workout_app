@@ -9,6 +9,6 @@ class ExercisesTable(tables.Table):
         order_by = "name"
         model = Exercise
         fields = ("name", "required_equipment", "target_body_part")
-        attrs = {"class": "table_style"}
+        attrs = {"class": "style"}
         orderable = False
         
