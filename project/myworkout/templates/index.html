@@ -1,31 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
 <html>
+    <head>
+        <link rel="stylesheet" href="{% static 'style.css' %}">  
+    </head>
+    <body>
+        Create random workout
+        <form action="random/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="OK">
+        </form>
 
-Create random workout
-<form action="random/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="OK">
-</form>
-
-<table cellspacing="0" cellpadding="1" border="1" width="300">
-    <tr style="color:white;background-color:grey">
-        <th>Exercise</th>
-        <th>Body part</th>
-        <th>Equipment</th>
-    </tr>
-    {% for exercise in exercises %}
-    <tr>
-        <td>{{exercise.name}}</td>
-        <td>
-            {{ exercise.target_body_part.all|join:", " }}
-        </td>
-        <td>
-            {{ exercise.required_equipment.all|join:", " }}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
-
-
+        <table id="table_style" cellspacing="0" cellpadding="1" border="1" width="300">
+            <tr style="color:white;background-color:grey">
+                <th>Exercise</th>
+                <th>Body part</th>
+                <th>Equipment</th>
+            </tr>
+            {% for exercise in exercises %}
+            <tr>
+                <td>{{exercise.name}}</td>
+                <td>
+                    {{ exercise.target_body_part.all|join:", " }}
+                </td>
+                <td>
+                    {{ exercise.required_equipment.all|join:", " }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
 </html>
