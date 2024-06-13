@@ -38,3 +38,6 @@ def random_exercise(request):
     context = {"random_exercises": random_exercises}
 
     return render(request, "random.html", context=context)
+
+def workout_timer(request):
+    return render(request, "timer.html")

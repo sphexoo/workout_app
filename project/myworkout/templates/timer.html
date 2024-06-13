@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'style_timer.css' %}">
+</head>
+
+<body>
+    <div class="slidecontainer">
+        <p id="text_count"></p>
+        <input type="range" min="1" max="10" value="5" class="slider" id="slider_count">
+        <p id="text_work"></p>
+        <input type="range" min="1" max="60" value="30" class="slider" id="slider_work">
+        <p id="text_pause"></p>
+        <input type="range" min="1" max="60" value="30" class="slider" id="slider_pause">
+    </div>
+    <div>
+        <button id="button_start" onclick="">Start</button>
+        <p id="text_timer"></p>
+    </div>
+</body>
+
+<script>
+    var slider_count = document.getElementById("slider_count");
+    var slider_work = document.getElementById("slider_work");
+    var slider_pause = document.getElementById("slider_pause");
+
+    var text_count = document.getElementById("text_count");
+    var text_work = document.getElementById("text_work");
+    var text_pause = document.getElementById("text_pause");
+
+    var text_timer = document.getElementById("text_timer");
+    var button_start = document.getElementById("button_start")
+
+    text_count.innerHTML = "Number of exercises: " + slider_count.value;
+    text_work.innerHTML = "Work time: " + slider_work.value + " seconds";
+    text_pause.innerHTML = "Pause time: " + slider_pause.value + "seconds";
+
+    text_timer.innerHTML = slider_work.value + "s";
+
+    slider_count.oninput = function () {
+        text_count.innerHTML = "Number of exercises: " + this.value;
+    }
+
+    slider_work.oninput = function () {
+        text_work.innerHTML = "Work time: " + this.value + " seconds";
+        text_timer.innerHTML = this.value + "s";
+    }
+
+    slider_pause.oninput = function () {
+        text_pause.innerHTML = "Pause time: " + this.value + " seconds";
+    }
+
+    button_start.onclick = function () {
+        var work_time = document.getElementById("slider_work").value;
+        var pause_time = document.getElementById("slider_pause").value;
+        var count = document.getElementById("slider_count").value;
+
+
+        var intervals = []
+        var time_remaining = 0;
+        for (let i = 0; i < count; i++) {
+            intervals.push(work_time);
+
+            if (i < count - 1) {
+                intervals.push(pause_time);
+            }
+        }
+
+        var x = setInterval(function () {
+            console.log(intervals)
+
+            if (intervals.length == 0 && time_remaining == 0) {
+                text_timer.innerHTML = "DONE";
+                clearInterval(x);
+                return;
+            }
+
+            if (time_remaining <= 0) {
+                time_remaining = intervals.shift()
+                text_timer.innerHTML = time_remaining + "s";
+                return;
+            }
+
+            time_remaining = time_remaining - 1;
+            text_timer.innerHTML = time_remaining + "s";
+
+        }, 1000);
+
+    }
+
+    // Update the count down every 1 second
+
+</script>
+
+</html>
