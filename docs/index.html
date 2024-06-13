@@ -7,12 +7,12 @@
 
 <body>
     <div class="slidecontainer">
-        <p id="text_count" class="style"></p>
-        <input type="range" min="1" max="10" value="5" class="slider" id="slider_count">
-        <p id="text_work" class="style"></p>
-        <input type="range" min="1" max="60" value="30" class="slider" id="slider_work">
-        <p id="text_pause" class="style"></p>
-        <input type="range" min="1" max="60" value="30" class="slider" id="slider_pause">
+        <p id="text_count" class="style center"></p>
+        <input type="range" min="1" max="10" value="2" class="slider" id="slider_count">
+        <p id="text_work" class="style center"></p>
+        <input type="range" min="5" max="60" step="5" value="5" class="slider" id="slider_work">
+        <p id="text_pause" class="style center"></p>
+        <input type="range" min="5" max="60" step="5" value="5" class="slider" id="slider_pause">
     </div>
     <div class="timer">
         <p id="text_timer"></p>
@@ -23,12 +23,11 @@
 </body>
 
 <script>
-
     var sound_player = new Audio();
+    sound_player.src = "beep.mp3";
+    sound_player.mozPreservesPitch = false;
 
     function play_sound(rate) {
-        sound_player.src = "beep.mp3";
-        sound_player.mozPreservesPitch = false;
         sound_player.playbackRate = rate;
         sound_player.play();
     }
@@ -47,25 +46,38 @@
     var timer_is_running = false;
     var interval = null;
 
-    text_count.innerHTML = "Number of exercises: " + slider_count.value;
-    text_work.innerHTML = "Work time: " + slider_work.value + " seconds";
-    text_pause.innerHTML = "Pause time: " + slider_pause.value + " seconds";
+    function toggle_timer() {
+        timer_is_running = !timer_is_running;
+
+        if (timer_is_running) {
+            document.getElementById("button_toggle").innerHTML = "Stop";
+            document.getElementById("button_toggle").style.backgroundColor = "#c29313";
+        }
+        else {
+            document.getElementById("button_toggle").innerHTML = "Start";
+            document.getElementById("button_toggle").style.backgroundColor = "#04AA6D";
+        }
+    }
+
+    text_count.innerHTML = "Intervals: " + slider_count.value;
+    text_work.innerHTML = "Work: " + slider_work.value + " seconds";
+    text_pause.innerHTML = "Pause: " + slider_pause.value + " seconds";
 
     text_timer.innerHTML = slider_work.value;
 
     slider_count.oninput = function () {
-        text_count.innerHTML = "Number of exercises: " + this.value;
+        text_count.innerHTML = "Intervals: " + this.value;
     }
 
     slider_work.oninput = function () {
-        text_work.innerHTML = "Work time: " + this.value + " seconds";
+        text_work.innerHTML = "Work: " + this.value + " seconds";
         if (!timer_is_running) {
             text_timer.innerHTML = this.value;
         }
     }
 
     slider_pause.oninput = function () {
-        text_pause.innerHTML = "Pause time: " + this.value + " seconds";
+        text_pause.innerHTML = "Pause: " + this.value + " seconds";
     }
 
     button_toggle.onclick = function () {
@@ -76,30 +88,20 @@
         var time_intervals = [];
         var time_remaining = 0;
 
-        function reset() {
-            time_intervals = [];
-            time_remaining = 0;
-            for (let i = 0; i < count; i++) {
-                time_intervals.push(work_time);
+        for (let i = 0; i < count; i++) {
+            time_intervals.push(work_time);
 
-                if (i < count - 1) {
-                    time_intervals.push(pause_time);
-                }
+            if (i < count - 1) {
+                time_intervals.push(pause_time);
             }
-            text_timer.innerHTML = time_intervals[0];
         }
+        text_timer.innerHTML = time_intervals[0];
 
         if (timer_is_running) {
-            if (interval) {
-                clearInterval(interval);
-            }
-            document.getElementById("button_toggle").innerHTML = "Start";
-            document.getElementById("button_toggle").style.backgroundColor = "#04AA6D";
-            reset();
-            timer_is_running = false;
+            clearInterval(interval);
+            toggle_timer();
             return;
         }
-        reset();
 
         interval = setInterval(function () {
             time_remaining = time_remaining - 1;
@@ -107,9 +109,7 @@
             if (time_remaining < 0) {
                 if (time_intervals.length == 0) {
                     text_timer.innerHTML = "DONE";
-                    document.getElementById("button_toggle").innerHTML = "Start";
-                    document.getElementById("button_toggle").style.backgroundColor = "#04AA6D";
-                    timer_is_running = false;
+                    toggle_timer();
                     clearInterval(interval);
                     return;
                 }
@@ -127,9 +127,7 @@
             }
         }, 1000);
 
-        document.getElementById("button_toggle").innerHTML = "Stop";
-        document.getElementById("button_toggle").style.backgroundColor = "#c29313";
-        timer_is_running = true;
+        toggle_timer();
     }
 </script>
 
