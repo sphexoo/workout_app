@@ -53,6 +53,7 @@
     text-align: center;
     display: inline-block;
     font-size: 32px;
+    width: 100%;
 }
 
 .button:hover {
@@ -65,14 +66,22 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.bottom {
+    margin: 0;
+    width: 95%;
+    position: absolute;
+    top: 90%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
 #text_timer {
     font-family: Arial, Helvetica, sans-serif;
     padding-top: 0%;
-    font-size: 150px;
+    font-size: 200px;
     margin: auto;
     text-align: center;
 }
