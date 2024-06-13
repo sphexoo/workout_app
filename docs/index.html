@@ -14,7 +14,7 @@
         <p id="text_pause" class="style"></p>
         <input type="range" min="1" max="60" value="30" class="slider" id="slider_pause">
     </div>
-    <div class="center">
+    <div class="timer">
         <p id="text_timer"></p>
     </div>
     <div class="bottom">
@@ -59,8 +59,7 @@
 
     slider_work.oninput = function () {
         text_work.innerHTML = "Work time: " + this.value + " seconds";
-        if (!timer_is_running)
-        {
+        if (!timer_is_running) {
             text_timer.innerHTML = this.value;
         }
     }
@@ -103,31 +102,29 @@
         reset();
 
         interval = setInterval(function () {
-            if (time_intervals.length == 0 && time_remaining == 0) {
-                text_timer.innerHTML = "DONE";
-                document.getElementById("button_toggle").innerHTML = "Start";
-                document.getElementById("button_toggle").style.backgroundColor = "#04AA6D";
-                timer_is_running = false;
-                clearInterval(interval);
-                return;
-            }
-
-            if (time_remaining <= 0) {
-                time_remaining = time_intervals.shift()
-                text_timer.innerHTML = time_remaining;
-                return;
-            }
-            else if (time_remaining == 1)
-            {
-                play_sound(0.5);
-            }
-            else if (time_remaining <= 4) {
-                play_sound(2);
-            }
-
             time_remaining = time_remaining - 1;
+
+            if (time_remaining < 0) {
+                if (time_intervals.length == 0) {
+                    text_timer.innerHTML = "DONE";
+                    document.getElementById("button_toggle").innerHTML = "Start";
+                    document.getElementById("button_toggle").style.backgroundColor = "#04AA6D";
+                    timer_is_running = false;
+                    clearInterval(interval);
+                    return;
+                }
+
+                time_remaining = time_intervals.shift()
+            }
+
             text_timer.innerHTML = time_remaining;
 
+            if (time_remaining == 0) {
+                play_sound(0.5);
+            }
+            else if (time_remaining <= 3) {
+                play_sound(2);
+            }
         }, 1000);
 
         document.getElementById("button_toggle").innerHTML = "Stop";
