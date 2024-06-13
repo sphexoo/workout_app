@@ -7,15 +7,15 @@
 
 <body>
     <div class="slidecontainer">
-        <p id="text_count"></p>
+        <p id="text_count" class="style"></p>
         <input type="range" min="1" max="10" value="5" class="slider" id="slider_count">
-        <p id="text_work"></p>
+        <p id="text_work" class="style"></p>
         <input type="range" min="1" max="60" value="30" class="slider" id="slider_work">
-        <p id="text_pause"></p>
+        <p id="text_pause" class="style"></p>
         <input type="range" min="1" max="60" value="30" class="slider" id="slider_pause">
     </div>
-    <div>
-        <button id="button_start" onclick="">Start</button>
+    <div class="center">
+        <button id="button_start" class="button" onclick="">Start</button>
         <p id="text_timer"></p>
     </div>
 </body>
@@ -34,9 +34,9 @@
 
     text_count.innerHTML = "Number of exercises: " + slider_count.value;
     text_work.innerHTML = "Work time: " + slider_work.value + " seconds";
-    text_pause.innerHTML = "Pause time: " + slider_pause.value + "seconds";
+    text_pause.innerHTML = "Pause time: " + slider_pause.value + " seconds";
 
-    text_timer.innerHTML = slider_work.value + "s";
+    text_timer.innerHTML = slider_work.value;
 
     slider_count.oninput = function () {
         text_count.innerHTML = "Number of exercises: " + this.value;
@@ -44,7 +44,7 @@
 
     slider_work.oninput = function () {
         text_work.innerHTML = "Work time: " + this.value + " seconds";
-        text_timer.innerHTML = this.value + "s";
+        text_timer.innerHTML = this.value;
     }
 
     slider_pause.oninput = function () {
@@ -68,7 +68,6 @@
         }
 
         var x = setInterval(function () {
-            console.log(intervals)
 
             if (intervals.length == 0 && time_remaining == 0) {
                 text_timer.innerHTML = "DONE";
@@ -78,12 +77,12 @@
 
             if (time_remaining <= 0) {
                 time_remaining = intervals.shift()
-                text_timer.innerHTML = time_remaining + "s";
+                text_timer.innerHTML = time_remaining;
                 return;
             }
 
             time_remaining = time_remaining - 1;
-            text_timer.innerHTML = time_remaining + "s";
+            text_timer.innerHTML = time_remaining;
 
         }, 1000);
 
